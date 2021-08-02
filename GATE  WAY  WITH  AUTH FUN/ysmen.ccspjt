@@ -1,0 +1,16 @@
+[PROJECT]
+Target=ysmen.hex
+Processor_Text=PIC16F628A
+CCSVersion=5.015
+Compiler=PCM
+[Target Data]
+FileList=ysmen.c
+[Directories]
+Include=C:\Program Files\PICC\devices\;C:\Program Files\PICC\drivers\;D:\work for home automation\PROJECTS\NAMAN MUMBAI\order at10-4-13\master with fan\;C:\Program Files (x86)\PICC\devices\;C:\Program Files (x86)\PICC\drivers\;D:\Program Files (x86)\PICC\devices\;D:\Program Files (x86)\PICC\drivers\
+[ysmen.c]
+Type=4
+[mru-list]
+1=ysmen.c
+[Units]
+Count=1
+1=ysmen (main)

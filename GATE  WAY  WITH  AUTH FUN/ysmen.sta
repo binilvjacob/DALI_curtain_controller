@@ -1,0 +1,62 @@
+
+ROM used:   930/2048 (45%)
+            930/2048 (45%) including unused fragments
+
+            0.6 Average locations per line
+            2.0 Average locations per statement
+
+RAM used:   101/224 (45%) at main() level
+            106/224 (47%) worst case
+
+Stack used: 4 worst case (2 in main + 2 for interrupts)
+Stack size: 8
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  308   150  32  ysmen.c
+   20     0   0  ysmen.h
+  518     0   0  ..\..\..\..\Program Files (x86)\PICC\devices\16F628A.h
+  726   316  68  dali.c
+----- -----
+ 1572   466 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+ Inline         1             @delay_us1
+0      7   1    1             @PUTCHAR_BIU_1
+ Inline         0             @GETCH_BIU_1
+0     85   9    1   759  4.3  txmit1
+ Inline         1   576  4.8  txmit0
+0    122  13    3   710  8.3  txmit
+0     31   3    1    56  1.9  stopbit
+ Inline         0  1701  8.3  DL_ReadData
+0     27   3    0   417  4.3  DL_copyData
+0     30   3    0   420  3.3  EXT_isr
+0    194  21    0   824  6.8  TIMER1_isr
+0     53   6    3   320  6.0  RTCC_isr
+0      3   0    0     5  1.0  CCP1_isr
+0     42   5    2   255  4.5  RDA_isr
+0    258  28    2  2467  9.8  MAIN
+0      9   1    0             @const658
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               12
+    Statements              466
+    Comments                349
+    Volume (V)              12745
+    Difficulty (D)          63.4
+    Effort to implement (E) 808483
+    Time to implement (T)   12 hours, 29 minutes
+    Est Delivered Bugs (B)  3
+    Cyclomatic Complexity   46
+    Maintainability (MI)    118
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-00044    65  0  
+00045-007FF   861  1118  
+
+
+

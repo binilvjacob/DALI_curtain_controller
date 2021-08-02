@@ -1,0 +1,66 @@
+
+ROM used:   1770/2048 (86%)
+            1770/2048 (86%) including unused fragments
+
+            0.3 Average locations per line
+            1.4 Average locations per statement
+
+RAM used:   75/128 (59%) at main() level
+            92/128 (72%) worst case
+
+Stack used: 5 worst case (3 in main + 2 for interrupts)
+Stack size: 8
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+ 1067   501  40  slave.c
+   17     0   0  slave.h
+  619     0   0  ..\..\..\..\Program Files (x86)\PICC\devices\16F684.h
+ 2229   257  21  ..\..\..\..\Program Files (x86)\PICC\drivers\math.h
+ 1351   359  29  ..\..\..\..\Program Files (x86)\PICC\drivers\STDLIB.H
+   32     0   0  ..\..\..\..\Program Files (x86)\PICC\drivers\stddef.h
+  423   125  10  ..\..\..\..\Program Files (x86)\PICC\drivers\string.h
+   28     0   0  ..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h
+----- -----
+ 5766  1242 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+ Inline         1             @delay_ms2
+ Inline         1             @delay_us2
+0     25   1    0   385  3.3  EXT_isr
+0    176  10    1   764  6.7  TIMER1_isr
+0     12   1    0   117  3.7  RTCC_isr
+0    161   9    2  1061  7.3  MAIN
+0     28   2    0   292  2.8  init
+0    807  46    0    59  1.9  handle
+0     83   5    1   759  4.3  txmit1
+ Inline         1   576  4.8  txmit0
+0    112   6    3   643  8.3  txmit
+0     30   2    1    69  1.9  stopbit
+ Inline         2  1691  8.3  readData
+0     27   2    0   436  4.3  copyData
+ Inline         2  6173  9.4  commands
+0    245  14    2  1147  2.4  init_from_eeprom
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               14
+    Statements              1242
+    Comments                1326
+    Volume (V)              20626
+    Difficulty (D)          71.0
+    Effort to implement (E) 1464256
+    Time to implement (T)   22 hours, 36 minutes
+    Est Delivered Bugs (B)  4
+    Cyclomatic Complexity   80
+    Maintainability (MI)    89
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-0003F    60  0  
+00040-007FF  1706  278  
+
+
+

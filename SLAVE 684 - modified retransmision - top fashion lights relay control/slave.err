@@ -1,0 +1,9 @@
+>>> Warning 208 "slave.c" Line 141(1,8): Function not void and does not return a value  EXT_isr
+>>> Warning 208 "slave.c" Line 224(1,9): Function not void and does not return a value  RTCC_isr
+>>> Warning 202 "slave.c" Line 77(7,19): Variable never used:   curtain_time
+>>> Warning 202 "slave.c" Line 85(6,19): Variable never used:   FadeRateCount
+>>> Warning 202 "slave.c" Line 96(5,16): Variable never used:   txmit_count
+>>> Warning 202 "slave.c" Line 97(5,16): Variable never used:   error_value
+      Memory usage:   ROM=72%      RAM=56% - 70%
+      0 Errors,  6 Warnings.
+Build Successful.

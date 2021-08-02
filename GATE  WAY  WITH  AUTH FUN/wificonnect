@@ -1,0 +1,189 @@
+
+#include <ysmen.h>
+#include <dali.c>
+
+#define led1 PIN_a2
+#define led2 PIN_a3
+char tempi =	16;
+
+char answer[6];
+char lampondelay;
+
+char  step=2,pos;
+
+
+//////////////////////////////////////////////////////////////////////////////
+#int_EXT
+EXT_isr()
+{
+
+   disable_interrupts(int_ext);
+   disable_interrupts(INT_RTCC);   
+   DL_bitcount=0;
+   setup_timer_1(T1_internal|T1_div_by_1);//settimer1with1us least count
+   set_timer1(0xffff-923);//928//5100
+   enable_interrupts(INT_TIMER1);
+   stopBitCount = 0;
+   oddevenbit=1;
+   DL_data[0]=0;
+   DL_data[1]=0;
+   DL_data[2]=0;   
+   forwrdFrameFlag = 0;
+   masterflag = 0;
+   backwardFrameFlag =0;   
+   DL_DataCount =0;	
+}
+#int_TIMER1
+TIMER1_isr()
+{
+
+	if(oddevenbit==1)
+	   {
+		   //output_high(pin_a3);// For Timing Corraction
+		   DL_a=input(rx);  
+		   oddevenbit=0 ;   
+		   setup_timer_1(T1_internal|T1_div_by_1);
+		   set_timer1(0xffff-358);//2010     
+	   }
+	else
+	   {
+		   //output_low(pin_a3); // For Timing Corraction
+		   DL_b=input(rx) ; 
+		   oddevenbit=1;
+		   setup_timer_1(T1_internal|T1_div_by_1);
+		   set_timer1(0xffff-353);//1990
+		   DL_ReadData();  
+	   }
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+
+#int_RTCC
+void  RTCC_isr(void) 
+{	//restart_wdt();
+
+   	if(settling_time< 24)
+   	{
+    	settling_time++;
+   	}
+	if (lampondelay > 0)lampondelay--;
+
+
+}
+#int_CCP1 
+void  CCP1_isr(void)
+{ 
+
+
+}
+
+
+void main()
+{
+	tempi =16;
+	setup_comparator(NC_NC_NC_NC);
+	setup_vref(FALSE);
+	setup_timer_0(RTCC_INTERNAL|RTCC_DIV_16);
+//	setup_wdt(WDT_18MS);
+	setup_timer_1(T1_INTERNAL|T1_DIV_BY_4);    
+   setup_timer_2(T2_DISABLED,0,1);
+	//setup_ccp1(CCP_CAPTURE_FE);	;
+	ext_int_edge( H_TO_L ); 
+
+
+
+//enable_interrupts(INT_RTCC);
+   disable_interrupts(INT_RB);  
+   disable_interrupts(INT_TBE);
+   disable_interrupts(INT_RDA);
+   disable_interrupts(INT_TIMER1);
+   disable_interrupts(INT_TIMER2);   
+   disable_interrupts(INT_COMP);
+   //enable_interrupts(INT_TIMER0);
+   disable_interrupts(INT_EEPROM);
+   	disable_interrupts(INT_CCP1);
+	enable_interrupts(int_rtcc);
+
+	enable_interrupts(INT_EXT); 
+	disable_interrupts(GLOBAL);	
+	pos=read_eeprom(0x07);
+	enable_interrupts(global);
+
+	while(1)
+	{
+
+			
+		//	UpdateLed();
+
+	    answer[0]=0;
+		answer[1]=0;
+		answer[2]=0;
+		answer[3]=0;
+		answer[4]=0;
+if(kbhit())
+	{
+		output_toggle(led1);	
+
+	    answer[0]=getch();
+		//answer[1]=getc();
+		//answer[2]=getc();
+		//answer[3]=getc();
+		//answer[4]=getc();	
+		printf("%c",answer[0]);
+		//printf("%c",answer[1]);
+		//printf("%c",answer[2]);
+		//printf("%c",answer[3]);
+		//printf("%c",answer[4]);	 
+	    if(answer[0] == 'Y')
+		{
+			output_toggle(led2);
+			step =2;
+			if(lampondelay== 0)
+			{
+				lamp_on(255);
+				lampondelay =200;
+			}
+			else
+			{
+				printf("w");
+			}
+			printf("ON");
+	 	}
+		  else if(answer[0] == 'N')
+		{
+
+			if(lampondelay== 0)
+			{
+				lamp_off(255);
+				lampondelay =200;
+			}
+			else
+			{
+				printf("w");
+			}		
+			printf("OFF");
+	 	} 
+		 else if(answer[0] == 'B')
+		{
+		
+			bright_lamp(255);
+			delay_ms(100);
+			printf("Bri");
+			if (step < 30 )step ++;
+	 	}  
+		 else if(answer[0] == 'D')
+		{
+			dim_lamp(255);
+			delay_ms(100);
+			printf("Dim");
+			if (step < 15 )step ++;
+	 	}  
+		else
+		{
+		//	printf("ut   ");
+	 	} 
+	}
+}
+}

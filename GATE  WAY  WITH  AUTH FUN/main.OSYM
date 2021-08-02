@@ -1,0 +1,38 @@
+_RETURN_
+CCP_1
+CCP_1_LOW
+CCP_1_HIGH
+CCP_2
+CCP_2_LOW
+CCP_2_HIGH
+LCD_INIT_STRING
+lcdline
+oddeven
+duty
+
+Project Directory:
+    E:\projects\BMC\pic73\
+
+Project Files:
+    main.c
+    main.h
+    C:\Program Files\PICC\devices\16F73.h
+    lcd.c
+
+Units:
+    main.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F73
+    Pointer Size:   8
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+    Output file:    Relocatable
+
+Output Files:
+    Errors:      main.err
+    Ext Symbols: main.esym
+    Object:      main.o
+    Symbols:     main.osym

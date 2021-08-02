@@ -1,0 +1,228 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+004     @WRITE_PROGRAM_MEMORY8.P2
+015     CCP_1
+015     CCP_1_LOW
+015     CCP_1_HIGH
+01B     CCP_2
+01B     CCP_2_LOW
+01B     CCP_2_HIGH
+020     @SCRATCH
+021     @SCRATCH
+021     _RETURN_
+022     @SCRATCH
+023     @SCRATCH
+024     @SCRATCH
+025     @INTERRUPT_AREA
+026     @INTERRUPT_AREA
+027     @INTERRUPT_AREA
+028     @INTERRUPT_AREA
+029     @INTERRUPT_AREA
+02A     @INTERRUPT_AREA
+02B     @INTERRUPT_AREA
+02C     @INTERRUPT_AREA
+02D     @INTERRUPT_AREA
+02E     lcdline
+02F     @TRIS_C
+030     keyVal
+031     keypressed
+032     k
+033-036 passCodeValue
+037     passcode
+038     keyCount
+039     keycode
+03A     ModeSelected
+03B     mode
+03C     Running
+03D     MenuSelected
+03E     menuIndex
+03F-046 para
+047-04E paraLimitLow
+04F-056 paraLimitHigh
+057     ctpress
+058     preMenu
+059     dot
+05A     dutyx
+05B     BoostVoltage
+05C     currentIntencityBed
+05D     currentIntencityMRI
+05E     outEnable
+05F     secondCount
+060     miniutCount
+061     TimerCounterBed
+062     TimerCounterMRI
+063     frequency
+064     displayupdate
+065     inter_bed
+066     inter_MRI
+067     ProgIndex
+068     preprogNoSelected
+069     buzCount
+06A-06B pulseCountMRI
+06C-06D pulseCountBed
+06E     BedDoom
+06F     menuIndexMin
+070     menuIndexMax
+071     Mri_intravel
+072     dis
+073     bed_intravel
+074     setintencity.level
+074     pointcur.ax
+074     @MUL88.P1
+074     lcd_init.i
+074     displayHighlow.indx
+074     MAIN.@SCRATCH1
+074     checkpasscode.@SCRATCH1
+074     parameterSelectMenu.@SCRATCH1
+074     setpara.@SCRATCH1
+074     modeselect.@SCRATCH1
+074     autoProgSel.@SCRATCH1
+075     setintencity.chanel
+075-076 @PRINTF_LU_84.P1
+075     preMnu.nameIndex
+075     @MUL88.P1
+075     lcd_init.@SCRATCH1
+075     MAIN.@SCRATCH2
+075     pointcur.@SCRATCH1
+075     displayHighlow.@SCRATCH1
+076     @PRINTF_D_84.P1
+076     MAIN.@SCRATCH3
+076     preMnu.@SCRATCH1
+077     @PRINTF_D_84.P1
+077     @PRINTF_U_84.P2
+077     @PRINTF_LU_84.@SCRATCH1
+078     @PRINTF_U_84.P1
+078     @PRINTF_D_84.@SCRATCH1
+078     @PRINTF_LU_84.@SCRATCH2
+079     @PRINTF_D_84.@SCRATCH2
+079     @PRINTF_LU_84.@SCRATCH3
+07A     @PRINTF_D_84.@SCRATCH3
+07A     @PRINTF_LU_84.@SCRATCH4
+07B     @PRINTF_D_84.@SCRATCH4
+07B     @PRINTF_LU_84.@SCRATCH5
+07C     @DIV88.P1
+07C     @PRINTF_LU_84.@SCRATCH6
+07D     @DIV88.P1
+07D     lcd_putc.c
+07E     lcd_gotoxy.x
+07E     @delay_ms1.P1
+07E     @DIV88.@SCRATCH1
+09C.6   C1OUT
+09C.7   C2OUT
+0A0     lcd_gotoxy.y
+0A1     lcd_gotoxy.address
+0A2     lcd_send_byte.address
+0A3     lcd_send_byte.n
+0A4     lcd_send_byte.@SCRATCH1
+0A5     lcd_send_nibble.n
+10D-10E @WRITE_PROGRAM_MEMORY8.P1
+10D-10E @READ_PROGRAM_MEMORY8.P2
+
+ROM Allocation:
+03B8  @delay_ms1
+003D  LCD_INIT_STRING
+03CB  lcd_send_nibble
+0414  lcd_send_byte
+045C  lcd_init
+0591  lcd_gotoxy
+05B6  @goto10120
+05BE  lcd_putc
+0045  progData
+035D  TIMER0_isr
+0397  TIMER1_isr
+04EA  setintencity
+0D43  MAIN
+0091  @const159
+0097  @const160
+00A4  @const163
+00B2  @const166
+00BC  @const167
+0775  @DIV88
+0C6E  @PRINTF_D_84
+078A  @PRINTF_U_84
+00D6  @const177
+0CDF  @PRINTF_LU_84
+00EC  @const180
+00F6  @const183
+05F0  readKey
+07D9  savepara
+062A  checkpasscode
+0106  @const186
+011E  @const187
+0136  @const188
+014D  @const190
+0800  parameterSelectMenu
+0160  @const193
+0169  @const194
+0172  @const195
+0187  @const196
+019C  @const197
+01AF  @const198
+01C4  @const199
+01D9  @const200
+0919  setpara
+07BF  pointcur
+06A5  modeselect
+01EC  @const204
+01FE  @const205
+020A  @const206
+0217  @const207
+04B5  init
+0A4E  preMnu
+0224  @const208
+023E  @const209
+0258  @const210
+0272  @const211
+028C  @const212
+02A6  @const213
+02C0  @const214
+02DA  @const215
+02F4  @const216
+0311  @const217
+032B  @const218
+0344  @const219
+0B32  autoProgSel
+07DA  @MUL88
+0736  displayHighlow
+0D39  setparaDefault
+0D43  @cinit
+0D8B  modesel
+0E34  bed2
+0EBF  mri2
+0E20  bed1
+0EAB  mri1
+062D  lable1
+0946  xxx
+
+
+User Memory space: 
+
+Project Directory:
+    E:\projects\BMC\pic73\
+
+Project Files:
+    main.c
+    main.h
+    C:\Program Files\PICC\devices\16F873a.h
+    lcd.c
+
+Units:
+    main.c (main)
+
+Compiler Settings:
+    Processor:      PIC16F873A
+    Pointer Size:   8
+    ADC Range:      0-255
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      main.err
+    Ext Symbols: main.esym
+    INHX8:       main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.PJT
+    Call Tree:   main.tre
+    Statistics:  main.sta

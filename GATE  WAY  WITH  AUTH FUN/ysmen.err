@@ -1,0 +1,15 @@
+>>> Warning 208 "ysmen.c" Line 41(1,8): Function not void and does not return a value  EXT_isr
+>>> Warning 203 "ysmen.c" Line 208(1,1): Condition always TRUE
+>>> Warning 202 "ysmen.c" Line 10(6,12): Variable never used:   answer
+>>> Warning 202 "ysmen.c" Line 11(6,17): Variable never used:   lampondelay
+>>> Warning 202 "ysmen.c" Line 14(6,12): Variable never used:   redCMD
+>>> Warning 202 "ysmen.c" Line 17(6,16): Variable never used:   frameError
+>>> Warning 202 "ysmen.c" Line 18(6,7): Variable never used:   h
+>>> Warning 202 "ysmen.c" Line 19(6,12): Variable never used:   SeenNo
+>>> Warning 202 "ysmen.c" Line 20(6,13): Variable never used:   address
+>>> Warning 202 "ysmen.c" Line 21(6,15): Variable never used:   DataReady
+>>> Warning 202 "ysmen.c" Line 36(6,14): Variable never used:   KB_delay
+>>> Warning 202 "ysmen.c" Line 38(5,10): Variable never used:   value
+      Memory usage:   ROM=45%      RAM=45% - 47%
+      0 Errors,  12 Warnings.
+Build Successful.
