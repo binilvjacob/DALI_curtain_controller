@@ -1,9 +1,9 @@
 
-ROM used:   1585/2048 (77%)
-            1585/2048 (77%) including unused fragments
+ROM used:   1619/2048 (79%)
+            1619/2048 (79%) including unused fragments
 
             0.3 Average locations per line
-            1.3 Average locations per statement
+            1.4 Average locations per statement
 
 RAM used:   72/128 (56%) at main() level
             89/128 (70%) worst case
@@ -13,7 +13,7 @@ Stack size: 8
 
 Lines Stmts  %   Files
 ----- ----- ---  -----
-  932   437  37  slave.c
+  941   447  38  slave.c
    17     0   0  slave.h
   619     0   0  ..\..\..\..\Program Files (x86)\PICC\devices\16F684.h
  2229   257  22  ..\..\..\..\Program Files (x86)\PICC\drivers\math.h
@@ -22,7 +22,7 @@ Lines Stmts  %   Files
   423   125  11  ..\..\..\..\Program Files (x86)\PICC\drivers\string.h
    28     0   0  ..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h
 ----- -----
- 5631  1178 Total
+ 5640  1188 Total
 
 Page ROM  %  RAM   Vol Diff  Functions:
 ---- --- --- ---   --- ----  ----------
@@ -30,30 +30,30 @@ Page ROM  %  RAM   Vol Diff  Functions:
 0     20   1    1             @delay_ms2
  Inline         1             @delay_us2
 0     25   2    0   385  3.3  EXT_isr
-0    176  11    1   764  6.7  TIMER1_isr
+0    181  11    1   764  6.7  TIMER1_isr
 0     12   1    0   117  3.7  RTCC_isr
 0    115   7    2   633  6.7  MAIN
-0     28   2    0   292  2.8  init
+0     57   4    1   423  2.8  init
 0    497  31    0    59  1.9  handle
 0     83   5    1   759  4.3  txmit1
  Inline         1   576  4.8  txmit0
 0    112   7    3   643  8.3  txmit
 0     30   2    1    69  1.9  stopbit
- Inline         2  1691  8.3  readData
+ Inline         2  1861  8.3  readData
 0     27   2    0   436  4.3  copyData
  Inline         2  3507 10.4  commands
 0    144   9    4   760  5.8  goto_position
-0    231  15    2  1068  2.4  init_from_eeprom
+0    231  14    2  1068  2.4  init_from_eeprom
  Inline         0             @cinit1
 
 Program metrics:
     Functions               15
-    Statements              1178
-    Comments                1284
-    Volume (V)              18134
+    Statements              1188
+    Comments                1279
+    Volume (V)              18586
     Difficulty (D)          76.7
-    Effort to implement (E) 1390229
-    Time to implement (T)   21 hours, 27 minutes
+    Effort to implement (E) 1426408
+    Time to implement (T)   22 hours, 1 minutes
     Est Delivered Bugs (B)  4
     Cyclomatic Complexity   66
     Maintainability (MI)    111
@@ -62,7 +62,7 @@ Program metrics:
 -----------  ----  ----
 00000-00003     4  0  
 00004-0003F    60  0  
-00040-007FF  1521  463  
+00040-007FF  1555  429  
 
 
 

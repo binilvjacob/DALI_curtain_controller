@@ -19,8 +19,8 @@ fan driver
 #define curtain_close_pin pin_c2
 
 
-#define Fixlampid 65                  // LAMP ADDRESS //
-#define zoneid_init   255 // zone address // 1-6 192//,5-8 193//,9-12 194//,13-16 195//
+#define Fixlampid 72                  // LAMP ADDRESS //
+#define zoneid_init   214 // zone address // 1-6 192//,5-8 193//,9-12 194//,13-16 195//
 #define G1 0b00000001
 #define G2 0b00000000
 #define rx pin_a2
@@ -318,16 +318,20 @@ void init(void)
 	//set_pwm1_duty(0);
 	    
 	faderate=3;
-/*
-	output_high(curtain_open_pin);
-	delay_ms(500);
-	output_low(curtain_open_pin);
+
 	delay_ms(2000);
+/*	output_high(curtain_open_pin);
+	delay_ms(1000);
+	output_low(curtain_open_pin);
+	delay_ms(1000);
+*/
 	output_high(curtain_close_pin);
-	delay_ms(500);
+	delay_ms(1000);
 	output_low(curtain_close_pin);
-	delay_ms(500);
-*/	
+	delay_ms(1000);
+	
+
+	
 	return;
 }
 
@@ -549,6 +553,8 @@ void readData(void)
                   else
                   {
 						error_flag =1;
+						enable_interrupts(INT_EXT);       
+						enable_interrupts(INT_RTCC);
                   }
                   break;
                }
@@ -571,6 +577,8 @@ void readData(void)
 					else
 					{
 						error_flag =1;
+						enable_interrupts(INT_EXT);       
+						enable_interrupts(INT_RTCC);
 					}
 					break;
 				}
@@ -578,7 +586,8 @@ void readData(void)
                 {
                       error_flag=1;
                       timerOnOff=0;
-                      enable_interrupts(INT_EXT);
+                      enable_interrupts(INT_EXT);  
+					  enable_interrupts(INT_RTCC);
                       settling_time = 0;
                       break;
                 }
@@ -638,7 +647,7 @@ void commands(void)
 	switch(command)
 	{
 		
-	   	case 42:	// goto  level 
+	   	case 202:	// goto  level 
 		{  
 			
 			if(databyte > MaximumLevel )
@@ -660,14 +669,14 @@ void commands(void)
 										
 			break;
 		}
-		case 40:	// on
+		case 203:	// on
 		{  		
 		
             curtain_duty=100;			
 			goto_position(curtain_duty);						
 			break;
 		}
-		case 41:	//off
+		case 204:	//off
 		{  	
 		
          curtain_duty=0;

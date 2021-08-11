@@ -18,9 +18,10 @@ fan driver
 #define curtain_open_pin pin_c3
 #define curtain_close_pin pin_c2
 
+int16 curt_tot_time =10;			// total time in seconds
 
-#define Fixlampid 65                  // LAMP ADDRESS //
-#define zoneid_init   255 // zone address // 1-6 192//,5-8 193//,9-12 194//,13-16 195//
+#define Fixlampid 72                  // LAMP ADDRESS //
+#define zoneid_init   214 // zone address // 1-6 192//,5-8 193//,9-12 194//,13-16 195//
 #define G1 0b00000001
 #define G2 0b00000000
 #define rx pin_a2
@@ -114,6 +115,9 @@ char DTR,DwriteLocation,DTR_Ready;
 
 char lampid  = Fixlampid;
 
+int16 curtain_timer=0;
+int curtain_process=0;
+
 void readData(void);
 void init(void);
 void handle(void );
@@ -129,9 +133,6 @@ void startBit(void);
 void init_from_eeprom(void);
 void goto_position(int16);
 
-int1 pos_flag=0;
-int16 curtain_counter;
-
 
 
 
@@ -143,8 +144,9 @@ int16 curtain_counter;
 #int_EXT
 EXT_isr() 
 {
-		restart_wdt(); 	
-			disable_interrupts(int_TIMER2);	
+			restart_wdt(); 	
+			curtain_timer=0;
+			disable_interrupts(int_timer2);	
             disable_interrupts(int_ext);
             disable_interrupts(INT_RTCC);
             bitcount=0;
@@ -241,18 +243,13 @@ RTCC_isr()
 
 }
 
-#int_TIMER2
+
+#int_timer2					// 60 ms interrupt
 timer2_isr()
 {
-	if((curtain_counter++)==curtain_duty && pos_flag==1)
-	{		
-		output_high(curtain_open_pin);
-	}
-	else if(curtain_counter>curtain_duty)
-	{
-		output_low(curtain_open_pin);
-		pos_flag=0;
-	}
+
+curtain_timer++;
+restart_wdt(); 
 
 }
 
@@ -260,6 +257,9 @@ timer2_isr()
 void main(void)
 
 {
+	setup_wdt(WDT_ON);
+	setup_wdt(WDT_72MS|WDT_TIMES_16);		//~1.1 s reset	
+
 	init_from_eeprom();
 	init();		
 	GroupSelectReg = MAKE16(read_EEPROM (Group_815Store ),read_EEPROM (Group_07Store));	
@@ -287,8 +287,10 @@ start:
 			handle(); 
 		}		
 		else if(address==lampid)		{
-			
-			handle(); 
+			if(address>=64)
+			{
+			handle();
+			}			 
 		}		
     	else if(address == zoneid)
 		{
@@ -304,6 +306,34 @@ start:
 		}
 		dataReady =0;
 	}
+
+
+	if(curtain_process==1 && curtain_timer >=(curt_tot_time*100)/6)
+	{
+		
+		disable_interrupts(int_timer2);
+		output_high(curtain_open_pin);			// pulse 2
+		delay_ms(100);
+		output_low(curtain_open_pin);
+		curtain_timer=0;
+		enable_interrupts(int_timer2);
+		curtain_process=2;
+	}
+
+	if(curtain_process==2 && curtain_timer >=(curtain_time*100)/6)
+	{
+		
+		disable_interrupts(int_timer2);
+		output_high(curtain_open_pin);			// pulse 3
+		delay_ms(100);
+		output_low(curtain_open_pin);
+		curtain_timer=0;
+		curtain_process=0;
+
+	}
+
+
+
 /*	if(txmit_error==1&&txmit_count<64)
 	{
 		txmit_count++;
@@ -322,32 +352,42 @@ void init(void)
 {
 //	setup_timer_2(T2_OFF);		//26.0 us overflow, 26.0 us interrupt
  	setup_ccp1(CCP_OFF);
-	setup_timer_2(T2_DIV_BY_16,116,16);		//1.8 ms overflow, 29.9 ms interrupt
 //	set_pwm1_duty((int16)10);	
 	setup_timer_0(RTCC_INTERNAL|RTCC_DIV_1);
 	//setup_wdt(WDT_2304MS|WDT_DIV_16);
 	setup_timer_1(T1_internal|T1_div_by_1);
+	setup_timer_2(T2_DIV_BY_16,249,15);		//4.0 ms overflow, 60.0 ms interrupt
 	timerOnOff=0;
 	ext_int_edge( H_TO_L );
 	enable_interrupts(INT_EXT);
 	enable_interrupts(INT_RTCC);
-	enable_interrupts(INT_TIMER2);
+	disable_interrupts(INT_TIMER2);
 	enable_interrupts(global);	
 	settling_time =23;
 	dataReady =0;
 	//set_pwm1_duty(0);
 	    
 	faderate=3;
-/*
-	output_high(curtain_open_pin);
-	delay_ms(500);
+
+	delay_ms(3000);
+/*	output_high(curtain_open_pin);
+	delay_ms(1000);
 	output_low(curtain_open_pin);
-	delay_ms(2000);
-	output_high(curtain_close_pin);
-	delay_ms(500);
+	delay_ms(1000);
+*/
+/*	output_high(curtain_close_pin);
+	delay_ms(1000);
 	output_low(curtain_close_pin);
-	delay_ms(500);
-*/	
+	delay_ms(2000);
+*/
+	curtain_process=0;
+	curtain_timer=0;
+	curtain_time=0;
+	goto_position(20);
+	
+	
+
+	
 	return;
 }
 
@@ -485,7 +525,7 @@ void txmit0(void)
 void txmit(char priority,char length)
 { 
      j= 8*length;
-	 while (settling_time < 12+priority);      // priority
+	 while (settling_time < 12+Fixlampid);      // priority
      disable_interrupts(global);
      txmit1();        // start bit  
      for(i=0;i<j;i++)
@@ -511,7 +551,6 @@ rr:  output_bit(tx,1);
      intf =0;
      enable_interrupts(global);	
 	 enable_interrupts(INT_RTCC);
-    enable_interrupts(int_timer2);
      return;
 }
 
@@ -570,6 +609,8 @@ void readData(void)
                   else
                   {
 						error_flag =1;
+						enable_interrupts(INT_EXT);       
+						enable_interrupts(INT_RTCC);
                   }
                   break;
                }
@@ -592,6 +633,8 @@ void readData(void)
 					else
 					{
 						error_flag =1;
+						enable_interrupts(INT_EXT);       
+						enable_interrupts(INT_RTCC);
 					}
 					break;
 				}
@@ -599,8 +642,8 @@ void readData(void)
                 {
                       error_flag=1;
                       timerOnOff=0;
-                      enable_interrupts(INT_EXT);
-					  enable_interrupts(int_timer2);
+                      enable_interrupts(INT_EXT);  
+					  enable_interrupts(INT_RTCC);
                       settling_time = 0;
                       break;
                 }
@@ -611,8 +654,7 @@ void readData(void)
 			error_flag=1;    
 			settling_time = 0;
 			timerOnOff=0;       
-			enable_interrupts(INT_EXT);      
-			enable_interrupts(int_timer2); 
+			enable_interrupts(INT_EXT);       
 			enable_interrupts(INT_RTCC);         
 		}
       }
@@ -622,8 +664,7 @@ void readData(void)
 		settling_time = 0;
 		timerOnOff=0;       
 		enable_interrupts(INT_EXT);       
-		enable_interrupts(INT_RTCC);
-		enable_interrupts(int_timer2);         
+		enable_interrupts(INT_RTCC);         
 	}
     return;
 }
@@ -651,7 +692,6 @@ void copyData(void)
     enable_interrupts(INT_EXT);
     disable_interrupts(int_timer1);
     enable_interrupts(INT_RTCC);
-	enable_interrupts(int_timer2);
     settling_time = 0;
     return;
 }
@@ -663,9 +703,9 @@ void commands(void)
 	switch(command)
 	{
 		
-	   	case 42:	// goto  level 
+	   	case 202:	// goto  level 
 		{  
-			pos_flag=0;
+			
 			if(databyte > MaximumLevel )
 			{
 
@@ -685,22 +725,50 @@ void commands(void)
 										
 			break;
 		}
-		case 40:	// on
+		case 203:	// on
 		{  		
-			pos_flag=0;
+		
             curtain_duty=100;			
 			goto_position(curtain_duty);						
 			break;
 		}
-		case 41:	//off
+		case 204:	//off
 		{  	
-		pos_flag=0;
+		
          curtain_duty=0;
 		goto_position(curtain_duty);
 			break;
-		}	
+		}
+	/*	case 216:	//dim
+		case 241:		//ZONE DIM
+		{
+			if(l_st==1)
+			{				
+				if(duty>MinimumLevel)
+				{							
+					duty--;
+					SetDimmLevel(duty);					
+				}
+			}
+			break;
+		}
+		case 220:	//bright
+		case 240:  //zone  bright
+		{
+			if(l_st==1)
+			{			
+				if(duty < MaximumLevel)
+				{									
+					duty++;
+					SetDimmLevel(duty);			
+				}
+			}
+			break;
+		}*/	
+	
 		case 234: // scene select 
-		{			
+		{
+			
 			if(databyte < 17)
 			{				
 				currentSceen = databyte;			
@@ -764,7 +832,7 @@ void commands(void)
 		}
 		case 0x22:    // store  short  aress 
 		{
-			if(databyte <64)
+			if(databyte >=64 && databyte <=255)
 			{
 					lampid = databyte;
 					write_eeprom(ShortAddressStore ,lampid);
@@ -841,7 +909,13 @@ return;
 
 
 void goto_position(int16 position)
-{	
+{
+
+//	faderate=2;
+	curtain_time=(curt_tot_time*position)/100;
+	curtain_process=0;
+//	curtain_time=position * faderate * 10;
+	
 	if(position == 0)
 	{
 	output_high(curtain_close_pin);
@@ -857,12 +931,37 @@ void goto_position(int16 position)
 	else if(position>0 && position <100)
 	{
 	// code to go to position 0
-	pos_flag=0;
-	output_high(curtain_close_pin);
+/*
+	disable_interrupts(int_timer2);
+	output_high(curtain_close_pin);			// pulse 1
 	delay_ms(100);
 	output_low(curtain_close_pin);
-	delay_ms(3000);
-	pos_flag=1;
+
+
+	enable_interrupts(int_timer2);
+	while(curtain_timer<=(curt_tot_time*100)/6);	
+	disable_interrupts(int_timer2);
+	curtain_timer=0;
+	// code to go to desired position
+	output_high(curtain_open_pin);			// pulse 2
+	delay_ms(100);
+	output_low(curtain_open_pin);
+	enable_interrupts(int_timer2);
+	while(curtain_timer<=(curtain_time*100)/6);
+	disable_interrupts(int_timer2);
+	curtain_timer=0;
+	output_high(curtain_open_pin);			// pulse 3
+	delay_ms(100);
+	output_low(curtain_open_pin);
+*/
+	
+	disable_interrupts(int_timer2);
+	output_high(curtain_close_pin);			// pulse 1
+	delay_ms(100);
+	output_low(curtain_close_pin);
+	curtain_process=1;
+	curtain_timer=0;
+	enable_interrupts(int_timer2);
 	}
 	else
 	{

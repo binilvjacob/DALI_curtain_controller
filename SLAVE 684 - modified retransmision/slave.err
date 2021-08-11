@@ -3,6 +3,6 @@
 >>> Warning 202 "slave.c" Line 85(6,19): Variable never used:   FadeRateCount
 >>> Warning 202 "slave.c" Line 96(5,16): Variable never used:   txmit_count
 >>> Warning 202 "slave.c" Line 97(5,16): Variable never used:   error_value
-      Memory usage:   ROM=77%      RAM=56% - 70%
+      Memory usage:   ROM=79%      RAM=56% - 70%
       0 Errors,  5 Warnings.
 Build Successful.

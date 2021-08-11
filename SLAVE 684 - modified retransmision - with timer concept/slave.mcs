@@ -54,8 +54,18 @@ ToolArgsString=
 TraceCmdString=
 DebugOptions=
 [File004]
-Location=D:\home automation codes\curtain slave\curtain slave\SLAVE 684 - modified retransmision - taking timer concept\slave.o
+Location=D:\home automation codes\curtain slave\curtain slave\SLAVE 684 - modified retransmision - with timer concept\slave.o
 Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
 [File005]
 Location=slave.HEX
 Folder=Output

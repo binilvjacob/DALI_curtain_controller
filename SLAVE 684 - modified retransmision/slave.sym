@@ -80,6 +80,7 @@
 066-067 goto_position.position
 066-069 atan2.y
 066     MAIN.@SCRATCH1
+066     init.@SCRATCH1
 066     commands.@SCRATCH1
 066     init_from_eeprom.@SCRATCH1
 067     txmit.length
@@ -111,32 +112,32 @@ ROM Allocation:
 000059  copyData
 000074  TIMER1_isr
 0000C3  readData
-000124  RTCC_isr
-000130  init_from_eeprom
-000217  init
-000233  @MUL1616
-000248  @delay_ms2
-00025C  goto_position
-0002EC  txmit1
-00033F  stopbit
-000348  @delay_us2
-00035D  txmit
-00037A  txmit0
-0003CD  commands
-0003CD  handle
-0005BE  MAIN
-0005BE  @cinit1
-0005DF  @cinit2
+000129  RTCC_isr
+000135  init_from_eeprom
+00021C  @delay_ms2
+000230  init
+000269  @MUL1616
+00027E  goto_position
+00030E  txmit1
+000361  stopbit
+00036A  @delay_us2
+00037F  txmit
+00039C  txmit0
+0003EF  commands
+0003EF  handle
+0005E0  MAIN
+0005E0  @cinit1
+000601  @cinit2
 0136  StrtoulGO
 0136  StrtolGO
-0600  start
-03C3  rr
+0622  start
+03E5  rr
 
 Project Directory:
     D:\home automation codes\curtain slave\curtain slave\SLAVE 684 - modified retransmision\
 
 Project Files:
-    slave.c                                                 [17-Jun-21 12:04  CRC=B2E30329]
+    slave.c                                                 [10-Aug-21 16:56  CRC=A35B967C]
     slave.h                                                 [01-Apr-11 14:41  CRC=F95B5C6A]
     ..\..\..\..\Program Files (x86)\PICC\devices\16F684.h   [12-Nov-13 14:34  CRC=6B043C92]
     ..\..\..\..\Program Files (x86)\PICC\drivers\math.h     [28-Sep-12 11:35  CRC=546412C9]
@@ -145,7 +146,7 @@ Project Files:
     ..\..\..\..\Program Files (x86)\PICC\drivers\string.h   [14-Jul-11 10:13  CRC=23EDEC8F]
     ..\..\..\..\Program Files (x86)\PICC\drivers\ctype.h    [03-Jan-08 13:55  CRC=2D1F019F]
 
-Source signature=7EB5F4F6
+Source signature=6F2E8849
 
 Units:
     slave (main)
